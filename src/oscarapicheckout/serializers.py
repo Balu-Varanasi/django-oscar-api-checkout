@@ -25,7 +25,7 @@ OrderTotalCalculator = get_class('checkout.calculators', 'OrderTotalCalculator')
 
 class PaymentMethodsSerializer(serializers.Serializer):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(PaymentMethodsSerializer, self).__init__(*args, **kwargs)
 
         request = self.context.get('request', None)
         assert request is not None, (
@@ -88,7 +88,7 @@ class CheckoutSerializer(OscarCheckoutSerializer):
         queryset=get_user_model().objects.get_queryset())
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(CheckoutSerializer, self).__init__(*args, **kwargs)
 
         # Build PaymentMethods field
         self.fields['payment'] = PaymentMethodsSerializer(context=self.context)
@@ -120,7 +120,7 @@ class CheckoutSerializer(OscarCheckoutSerializer):
         guest_email = data.get('guest_email')
 
         # Calculate totals and whatnot
-        data = super().validate(data)
+        data = super(CheckoutSerializer, self).validate(data)
 
         # Figure out who should own the order
         request = self.context['request']
