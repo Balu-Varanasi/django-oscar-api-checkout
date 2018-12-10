@@ -55,7 +55,7 @@ class DiscriminatedUnionSerializer(serializers.Serializer):
 
     """
     def __init__(self, discriminant_field_name, types, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(DiscriminatedUnionSerializer, self).__init__(*args, **kwargs)
         self.fields[discriminant_field_name] = serializers.ChoiceField(choices=[(t, t) for t in types.keys()])
         self.discriminant_field_name = discriminant_field_name
         self.type_mapping = types
