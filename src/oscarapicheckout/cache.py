@@ -65,13 +65,13 @@ class AbstractCheckoutCache(object):
 
 class AbstractCheckoutAddressCache(AbstractCheckoutCache):
     def _transform_incoming_data(self, data):
-        data = super()._transform_incoming_data(data)
+        data = super(AbstractCheckoutAddressCache, self)._transform_incoming_data(data)
         if data and 'country' in data and hasattr(data['country'], 'pk'):
             data['country'] = data['country'].pk
         return data
 
     def _transform_outgoing_data(self, data):
-        data = super()._transform_outgoing_data(data)
+        data = super(AbstractCheckoutAddressCache, self)._transform_outgoing_data(data)
         if data and 'country' in data and not hasattr(data['country'], 'pk'):
             try:
                 data['country'] = Country.objects.get(pk=data['country'])

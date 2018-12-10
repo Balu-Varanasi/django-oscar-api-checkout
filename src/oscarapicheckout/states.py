@@ -32,7 +32,7 @@ class FormPostRequired(PaymentStatus):
     status = PENDING
 
     def __init__(self, amount, name, url, method='POST', fields=[]):
-        super().__init__(amount)
+        super(FormPostRequired, self).__init__(amount)
         self.form_data = {
             'type': 'form',
             'name': name,

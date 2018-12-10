@@ -28,7 +28,6 @@ ShippingAddress = get_model('order', 'ShippingAddress')
 OrderTotalCalculator = get_class('checkout.calculators', 'OrderTotalCalculator')
 
 
-
 class DiscriminatedUnionSerializer(serializers.Serializer):
     """
     Serializer for building a discriminated-union of other serializers
@@ -60,7 +59,6 @@ class DiscriminatedUnionSerializer(serializers.Serializer):
         self.fields[discriminant_field_name] = serializers.ChoiceField(choices=[(t, t) for t in types.keys()])
         self.discriminant_field_name = discriminant_field_name
         self.type_mapping = types
-
 
     def to_representation(self, obj):
         concrete_type = self._get_concrete_type(obj)
@@ -209,7 +207,7 @@ class CheckoutSerializer(OscarCheckoutSerializer):
         queryset=get_user_model().objects.get_queryset())
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super(CheckoutSerializer, self).__init__(*args, **kwargs)
 
         # Build PaymentMethods field
         self.fields['payment'] = PaymentMethodsSerializer(context=self.context)
@@ -241,7 +239,7 @@ class CheckoutSerializer(OscarCheckoutSerializer):
         guest_email = data.get('guest_email')
 
         # Calculate totals and whatnot
-        data = super().validate(data)
+        data = super(CheckoutSerializer, self).validate(data)
 
         # Check that the basket is still valid
         basket_errors = []
